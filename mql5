@@ -1,0 +1,186 @@
+
+// MT4 To Notion - Trading Robot
+
+// Developer: Forex Robot Easy Team
+// Developer's Site: forexroboteasy.com
+
+// Import necessary libraries
+#include <Trade\Trade.mqh>
+#include <ChartObjects\ChartObjects.mqh>
+
+// Define trade export fields
+enum TradeFields
+{
+    TYPE,
+    VOLUME,
+    SYMBOL,
+    OPEN_PRICE,
+    CLOSE_PRICE,
+    PROFIT
+};
+
+// Define trade data structure
+struct TradeData
+{
+    ENUM_TRADE_TYPE type;
+    double volume;
+    string symbol;
+    double openPrice;
+    double closePrice;
+    double profit;
+};
+
+// Function to export trades to Notion
+void ExportTradesToNotion(int timeRange, int[] fields)
+{
+    // Retrieve trade data from trading account
+    TradeData[] trades;
+    if (timeRange == PERIOD_D1)
+    {
+        trades = GetTradesFromLastDay();
+    }
+    else if (timeRange == PERIOD_W1)
+    {
+        trades = GetTradesFromLastWeek();
+    }
+    else if (timeRange == PERIOD_M1)
+    {
+        trades = GetTradesFromLastMonth();
+    }
+    else
+    {
+        trades = GetTradesFromCustomTimeRange(timeRange);
+    }
+
+    // Export trade data to Notion
+    for (int i = 0; i < ArraySize(trades); i++)
+    {
+        string tradeInfo = GetTradeInfo(trades[i], fields);
+        SendToNotion(tradeInfo);
+    }
+}
+
+// Function to get trades from the last day
+TradeData[] GetTradesFromLastDay()
+{
+    // Retrieve trades from MetaTrader trading account
+    TradeData[] trades;
+
+    // Code to retrieve trades from the last day
+
+    return trades;
+}
+
+// Function to get trades from the last week
+TradeData[] GetTradesFromLastWeek()
+{
+    // Retrieve trades from MetaTrader trading account
+    TradeData[] trades;
+
+    // Code to retrieve trades from the last week
+
+    return trades;
+}
+
+// Function to get trades from the last month
+TradeData[] GetTradesFromLastMonth()
+{
+    // Retrieve trades from MetaTrader trading account
+    TradeData[] trades;
+
+    // Code to retrieve trades from the last month
+
+    return trades;
+}
+
+// Function to get trades from custom time range
+TradeData[] GetTradesFromCustomTimeRange(int timeRange)
+{
+    // Retrieve trades from MetaTrader trading account
+    TradeData[] trades;
+
+    // Code to retrieve trades from custom time range
+
+    return trades;
+}
+
+// Function to get trade information based on specified fields
+string GetTradeInfo(TradeData trade, int[] fields)
+{
+    string tradeInfo = '';
+
+    for (int i = 0; i < ArraySize(fields); i++)
+    {
+        if (fields[i] == TradeFields.TYPE)
+        {
+            tradeInfo += 'Type: ' + trade.type + ' ';
+        }
+        else if (fields[i] == TradeFields.VOLUME)
+        {
+            tradeInfo += 'Volume: ' + trade.volume + ' ';
+        }
+        else if (fields[i] == TradeFields.SYMBOL)
+        {
+            tradeInfo += 'Symbol: ' + trade.symbol + ' ';
+        }
+        else if (fields[i] == TradeFields.OPEN_PRICE)
+        {
+            tradeInfo += 'Open Price: ' + trade.openPrice + ' ';
+        }
+        else if (fields[i] == TradeFields.CLOSE_PRICE)
+        {
+            tradeInfo += 'Close Price: ' + trade.closePrice + ' ';
+        }
+        else if (fields[i] == TradeFields.PROFIT)
+        {
+            tradeInfo += 'Profit: ' + trade.profit + ' ';
+        }
+    }
+
+    return tradeInfo;
+}
+
+// Function to send trade information to Notion
+void SendToNotion(string tradeInfo)
+{
+    // Code to send trade information to Notion
+}
+
+// Entry point of the program
+int OnInit()
+{
+    // Initialize the MT4 to Notion software
+
+    return INIT_SUCCEEDED;
+}
+
+// Function called on each tick
+void OnTick()
+{
+    // Check for newly closed trades
+    if (TradeIsClosed())
+    {
+        TradeData closedTrade = GetClosedTrade();
+        string tradeInfo = GetTradeInfo(closedTrade, {TradeFields.TYPE, TradeFields.VOLUME, TradeFields.SYMBOL});
+        SendToNotion(tradeInfo);
+    }
+}
+
+// Function to check if a trade is closed
+bool TradeIsClosed()
+{
+    // Code to check if a trade is closed
+
+    return true;
+}
+
+// Function to get the most recently closed trade
+TradeData GetClosedTrade()
+{
+    // Retrieve closed trades from MetaTrader trading account
+    TradeData closedTrade;
+
+    // Code to retrieve the most recently closed trade
+
+    return closedTrade;
+}
